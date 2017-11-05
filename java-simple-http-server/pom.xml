@@ -14,7 +14,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>SimpleJavaHTTPServer</mainClass>
+                    <mainClass>SimpleJavaHttpServer</mainClass>
                 </configuration>
             </plugin>
             <plugin>

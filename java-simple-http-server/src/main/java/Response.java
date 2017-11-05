@@ -2,42 +2,40 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import enums.Header;
 import enums.Status;
 
 public class Response {
 
-    private Status status;
-    private String contentType;
-    private OffsetDateTime lastModified;
-    private int contentLength;
-    private byte[] body;
+    public final Status status;
+    public final String contentType;
+    public final int contentLength;
+    public final byte[] body;
 
-    public Response(Status status, String contentType, OffsetDateTime lastModified, byte[] body){
+    private static DateTimeFormatter rfc1123Formatter = DateTimeFormatter.RFC_1123_DATE_TIME;
+    private static String CRLF = "\r\n";
+
+    public Response(Status status, String contentType, byte[] body){
       this.status = status;
       this.contentType = contentType;
-      this.lastModified = lastModified;
       this.contentLength = body.length;
       this.body = body;
     }
 
     public void writeTo(OutputStream out) throws IOException {
+        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        String response =
+                "HTTP/1.1 " + status.statusCode + CRLF +
+                "Date: " + rfc1123Formatter.format(now) + CRLF +
+                "Server: SimpleJavaHttpServer" + CRLF +
+                "Content-Type: " + contentType + CRLF +
+                "Content-Length: " + String.valueOf(contentLength) + CRLF +
+                "Connection: Close" + CRLF +
+                CRLF;
 
-        String CRLF = "\r\n";
-        DateTimeFormatter formatter = DateTimeFormatter.RFC_1123_DATE_TIME;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 ").append(status.statusCode).append(CRLF)
-          .append(Header.CONTENT_TYPE.withValue(contentType)).append(CRLF)
-          .append(Header.CONTENT_LENGTH.withValue(String.valueOf(contentLength))).append(CRLF)
-          .append(Header.LAST_MODIFIED.withValue(formatter.format(lastModified))).append(CRLF)
-          .append(Header.SERVER.withValue("SimpleJavaHTTPServer")).append(CRLF)
-          .append(Header.CONNECTION.withValue("Close")).append(CRLF)
-          .append(CRLF);
-
-        out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+        out.write(response.getBytes(StandardCharsets.UTF_8));
         out.write(body);
         out.flush();
     }

@@ -2,7 +2,6 @@ package enums;
 
 public enum Status {
     OK("200 OK"),
-    NOT_MODIFIED("304 NotModified"),
     BAD_REQUEST("400 BadRequest"),
     FORBIDDEN("403 Forbidden"),
     NOT_FOUND("404 NotFound"),
