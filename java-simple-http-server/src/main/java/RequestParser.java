@@ -17,9 +17,6 @@ public class RequestParser {
 
         // http://httpwg.org/specs/rfc7230.html#request.line
         String[] requestLineItems = requestLine.split("\\s");
-
-        if (requestLineItems.length != 3) return null;
-
         String method      = requestLineItems[0];
         String path        = requestLineItems[1];
         String httpVersion = requestLineItems[2];

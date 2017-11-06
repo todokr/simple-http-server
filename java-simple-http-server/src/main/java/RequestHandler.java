@@ -21,7 +21,7 @@ public class RequestHandler {
             return new Response(Status.BAD_REQUEST, HTML_MIME, Files.readAllBytes(BAD_REQUEST_HTML_PATH));
         }
 
-        Path resourcePath = Paths.get(PUBLIC_DIR_PATH.toString(), request.path).normalize();
+        Path resourcePath = PUBLIC_DIR_PATH.resolve(request.path).normalize();
 
         if (!resourcePath.startsWith(PUBLIC_DIR_PATH)) { // ディレクトリトラバーサル
             return new Response(Status.FORBIDDEN, HTML_MIME, Files.readAllBytes(FORBIDDEN_HTML_PATH));
