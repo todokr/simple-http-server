@@ -6,6 +6,6 @@
 (defn detect [path]
   (let [ext (last (s/split (str path) #"\."))]
     (-> (io/resource "mimes.edn")
-      (slurp)
-      (edn/read-string)
-      (get (keyword ext) "application/octet-stream"))))
+        (slurp)
+        (edn/read-string)
+        (get (keyword ext) "application/octet-stream"))))
