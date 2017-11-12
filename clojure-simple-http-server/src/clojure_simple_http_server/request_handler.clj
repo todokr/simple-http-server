@@ -2,34 +2,35 @@
   (:require [clojure.string :as s]
             [clojure.java.io :as io])
   (:import (java.time OffsetDateTime ZoneOffset)
-           (java.nio.file Paths Files)))
+           (java.nio.file Paths Path Files LinkOption)))
 
-(defn normalize-path [str]
-  (let [path (-> (Paths/get "public" (into-array [str]))
-                 (.normalize)
-                 (io/as-file))]
-    (if (.isDirectory path)
-      (io/file path "index.html")
-      path)))
+(def test-path (Paths/get "public/index.html" (into-array String nil)))
 
-(defn dispatch [req]
-  (cond
-    (nil? req) ::bad-request
-    (not (.startsWith (normalize-path (:url req)) public-dir-path)) ::forbidden
-    :else ::found))
+(defn- ^Path normalize-path [^String url]
+  (if-let [path-str url]
+   (let [path (.normalize (Paths/get "public" (into-array [url])))]
+    (if (Files/isDirectory path (into-array LinkOption nil))
+      (.resolve path "index.html")
+      path))
+   nil))
 
-(defmulti handle-request dispatch)
+(defn- path->bytes [^Path path]
+  (with-open [stream (io/input-stream (.toFile path))]
+    (byte-array (take-while #(not= -1 %) (repeatedly #(.read stream))))))
 
-(defmethod handle-request ::forbidden [req]
-  (str "forbidden: " req))
+(defn- handle-found [path]
+  (let [body (path->bytes path)]
+    {:status 200
+     :content-type "text/html"
+     :content-length (count body)
+     :body body}))
 
-(defmethod handle-request ::not-found [req]
-  (str "not-found: " req))
+(defn handle-request [req]
+  (let [path (normalize-path (:url req))]
+    (cond
+      (nil? path) {:status 400}
+      (not (.startsWith path public-dir-path)) {:status 403}
+      (not (Files/exists path (into-array LinkOption nil))) {:status 404}
+      :else (handle-found path))))
 
-(defn handle-request [req error-pages]
-  {:status 200
-   :reason-phrase "OK"
-   :date (. OffsetDateTime (now ZoneOffset/UTC))
-   :last-modified (. OffsetDateTime (now ZoneOffset/UTC))
-   :content-type "text/html"
-   :body (.getBytes "Hello Server!")})
+(handle-request {:url "/index.html"})
