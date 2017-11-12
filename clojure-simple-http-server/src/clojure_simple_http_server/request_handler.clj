@@ -4,7 +4,7 @@
   (:import (java.time OffsetDateTime ZoneOffset)
            (java.nio.file Paths Path Files LinkOption)))
 
-(def test-path (Paths/get "public/index.html" (into-array String nil)))
+; (def test-path (Paths/get "public/index.html" (into-array String nil)))
 
 (defn- ^Path normalize-path [^String url]
   (if-let [path-str url]
@@ -25,12 +25,25 @@
      :content-length (count body)
      :body body}))
 
-(defn handle-request [req]
-  (let [path (normalize-path (:url req))]
-    (cond
-      (nil? path) {:status 400}
-      (not (.startsWith path public-dir-path)) {:status 403}
-      (not (Files/exists path (into-array LinkOption nil))) {:status 404}
-      :else (handle-found path))))
+(defn- resolve [path]
+  (cond
+    (nil? path) {:status 400}
+    (not (.startsWith path public-dir-path)) {:status 403}
+    (not (Files/exists path (into-array LinkOption nil))) {:status 404}
+    :else (handle-found path)))
 
-(handle-request {:url "/index.html"})
+(def reason-phrases {200 "OK"
+                     400 "BadRequest"
+                     403 "Forbidden"
+                     404 "NotFound"})
+
+(defn- assoc-reason [res]
+  (assoc res :reason-phrase (reason-phrases (:status res))))
+
+(defn handle-request [req]
+  (-> (:url req)
+      (normalize-path)
+      (resolve)
+      (assoc-reason)))
+
+; (handle-request {:url "/index.html"})
