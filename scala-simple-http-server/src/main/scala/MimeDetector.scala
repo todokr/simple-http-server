@@ -7,8 +7,8 @@ import scala.util.parsing.combinator._
 
 class MimeDetector(configName: String) {
 
-  private val mimeMap = MimeConfParser.parse(Paths.get(getClass.getResource(configName).toURI))
-  private val extPattern = """\.[A-Za-z0-9]+$""".r
+  private val mimeMap = MimeConfParser.parse(Paths.get(Thread.currentThread.getContextClassLoader.getResource(configName).toURI))
+  private val extPattern = """(?<=\.)[A-Za-z0-9]+$""".r
 
   def getMime(path: Path): String =
     extPattern.findFirstIn(path.getFileName.toString) // Regex#findFirstInはOptionを返す
