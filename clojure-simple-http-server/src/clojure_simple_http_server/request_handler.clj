@@ -33,7 +33,6 @@
     {:status 200
      :reason-phrase (reason-phrases 200)
      :content-type (mime/detect path)
-     :content-length (count body)
      :body body}))
 
 (defn- handle-not-ok [status]

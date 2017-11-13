@@ -18,7 +18,7 @@
       (let [socket (.accept server-socket)]
         (thread
           (with-open [out (io/output-stream (.getOutputStream socket))
-                      in (io/reader (.getInputStream socket))]
-            (-> (parser/parse-request (slurp in))
-                (handler/handle-request error-pages)
+                      in (io/input-stream (.getInputStream socket))]
+            (-> (parser/from-input-stream in)
+                (handler/handle-request)
                 (writer/write out))))))))
