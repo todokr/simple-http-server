@@ -10,9 +10,9 @@ class MimeDetector(configName: String) {
   private val mimeMap = MimeConfParser.parse(Paths.get(Thread.currentThread.getContextClassLoader.getResource(configName).toURI))
   private val extPattern = """(?<=\.)[A-Za-z0-9]+$""".r
 
-  def getMime(path: Path): String =
-    extPattern.findFirstIn(path.getFileName.toString) // Regex#findFirstInはOptionを返す
-      .flatMap(ext => mimeMap.get(ext)) // Map#getもOptionを返す。なのでflatMap
+  def getMime(fileName: String): String =
+    extPattern.findFirstIn(fileName) // Regex#findFirstInはOptionを返す
+      .flatMap(ext => mimeMap.get(ext)) // Map#getもOptionを返す。なのでflatMapする
       .getOrElse("application/octet-stream")
 }
 
