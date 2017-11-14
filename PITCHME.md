@@ -142,6 +142,20 @@
 - REPLを活かしたインタラクティブ/インクリメンタルな開発|
 - 作者であるRich Hickeyの考え方|
 
++++
+
+## Simplicity Matters
+
+> 設計上の機敏さ (architectural agility)、つまり根本的にシンプルなシステムを構築することによって得られる機敏さ、は他の全ての機敏さを圧倒するというのが僕の主張です。どんな開発プロセスを使っているかは関係ありません。
+
+http://eed3si9n.com/ja/simplicity-matters
+
++++
+
+## Clojureと「Simple Made Easy」
+
+http://boxofpapers.hatenablog.com/entry/simple_made_easy
+
 ---
 
 ## HTTPサーバーを作りながら学ぼう
