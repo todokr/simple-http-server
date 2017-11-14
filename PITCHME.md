@@ -1,11 +1,11 @@
 # 新しいプログラミング言語の学び方
 ## HTTPサーバーを作って学ぶJava, Scala, Clojure
 
-<small style="text-align: center;">@todokr</small>
+@todokr
 
 +++
 
-Hello!
+### Hello!
 
 ```scala
 protected case object PublicAction {
