@@ -4,9 +4,8 @@
 
 (defn from-input-stream [in]
   (let [[method target-path http-version]
-        (-> (io/reader in)
-            (.readLine)
-            (s/split #"\s"))]
+        (when-let [line (.readLine (io/reader in))]
+          (s/split line #"\s"))]
     {:method method
      :target-path target-path
      :http-version http-version}))
