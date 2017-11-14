@@ -2,7 +2,7 @@
     font-size: 30px;
 }
 
-.reveal .slide {
+.slides {
     width: 96%!important;
 }
 
@@ -20,10 +20,11 @@
 }
 
 .reveal h2 {
-    font-size: 1.8em;
+    font-size: 1.4em;
 }
 
 
 .reveal pre {
     width: 100%;
+    font-size: 0.85em;
 }
