@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class WorkerThread extends Thread {
@@ -14,10 +16,12 @@ public class WorkerThread extends Thread {
     }
 
     public void run() {
-        try (Socket s = socket) {
-            Request request = parser.fromInputStream(s.getInputStream());
+        try (Socket s = socket;
+             InputStream in = s.getInputStream();
+             OutputStream out = s.getOutputStream()) {
+            Request request = parser.fromInputStream(in);
             Response response = handler.handleRequest(request);
-            response.writeTo(s.getOutputStream());
+            response.writeTo(out);
         } catch (IOException e) {
             e.printStackTrace();
         }
