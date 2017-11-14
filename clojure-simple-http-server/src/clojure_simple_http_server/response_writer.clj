@@ -1,8 +1,9 @@
 (ns clojure-simple-http-server.response-writer
-  (:require [clojure-simple-http-server.utils.config-loader]
-            [clojure-simple-http-server.utils.http-token :refer [CRLF SP]])
   (:import (java.time.format DateTimeFormatter)
            (java.time OffsetDateTime ZoneOffset)))
+
+(def SP " ")
+(def CRLF "\r\n")
 
 (defn write [{:keys [status reason-phrase content-type body]} out]
   (let [header (str

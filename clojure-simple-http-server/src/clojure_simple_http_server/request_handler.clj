@@ -41,7 +41,7 @@
    :content-type "text/html"
    :body (path->bytes (resolve-public (str status ".html")))})
 
-(defn- resolve [path]
+(defn- resolve-resource [path]
   (cond
     (nil? path)                        (handle-not-ok 400)
     (not (.startsWith path "public/")) (handle-not-ok 403)
@@ -49,6 +49,6 @@
     :else                              (handle-ok path)))
 
 (defn handle-request [req]
-  (-> (:url req)
+  (-> (:target-path req)
       (normalize-path)
-      (resolve)))
+      (resolve-resource)))

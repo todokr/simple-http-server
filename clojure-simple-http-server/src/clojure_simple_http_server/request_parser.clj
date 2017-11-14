@@ -4,9 +4,8 @@
 
 (defn from-input-stream [in]
   (let [[method target-path http-version]
-        (-> (slurp in)
-            (s/split-lines)
-            (first)
+        (-> (io/reader in)
+            (.readLine)
             (s/split #"\s"))]
     {:method method
      :target-path target-path
