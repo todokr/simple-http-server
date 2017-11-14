@@ -12,7 +12,9 @@ protected case object PublicAction {
 
 +++
 
-Hola!
++++?code=scala-simple-http-server/src/main/scala/MimeDetector.scala&lang=scala
+
+@[1-3] @[5-8] @[10-16] @[18-24]
 
 ---
 
