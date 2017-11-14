@@ -5,6 +5,7 @@ object SimpleHttpServer {
   import scala.concurrent.Future
   import scala.concurrent.ExecutionContext.Implicits.global
   import utils.IOUtil.using
+  import RequestHandler.handleRequest
 
   val Port = 8080
 
@@ -12,7 +13,6 @@ object SimpleHttpServer {
 
     val serverSocket = new ServerSocket(Port)
     val parser = new RequestParser
-    val handler = new RequestHandler
 
     println("HTTP Server Start! Listening at " + Port + "!")
 
@@ -25,8 +25,7 @@ object SimpleHttpServer {
           val out = s.getOutputStream
 
           val request = parser.fromInputStream(in)
-          println(request)
-          val response = request.map(handler.handleRequest)
+          val response = request.map(handleRequest)
           response.foreach(_.writeTo(out))
         }
       }

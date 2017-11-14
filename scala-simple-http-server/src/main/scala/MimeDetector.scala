@@ -2,12 +2,13 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path, Paths}
 
 import scala.collection.JavaConverters._
+import scala.io.Source
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 
-object MimeDetector {
+class MimeDetector(configFileName: String) {
 
-  private val mimeMap = MimeConfParser.parse(Paths.get(getClass.getResource("mime.types").toURI))
+  private val mimeMap = MimeConfParser.parse(Source.fromResource(configFileName).mkString)
   private val extPattern = """(?<=\.)[A-Za-z0-9]+$""".r
 
   def getMime(fileName: String): String =
@@ -26,9 +27,8 @@ object MimeConfParser extends RegexParsers {
   private def line = key ~ value <~ ";"
   private def list = """types\s*\{""".r ~> rep(line) <~ "}"
 
-  def parse(conf: Path): Map[String, String] = {
-    val in = Files.readAllLines(conf, StandardCharsets.UTF_8).asScala.mkString("\n")
-    parseAll(list, in) match {
+  def parse(content: String): Map[String, String] = {
+    parseAll(list, content) match {
       case Success(result, _) => result.flatMap { case MimeConfParser.~(mime, exts) => exts.map(_ -> mime) }.toMap
       case NoSuccess(msg, next) => throw new ConfigParseException(s"Invalid config: $msg on line ${next.pos.line} on column ${next.pos.column}")
     }
