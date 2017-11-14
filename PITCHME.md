@@ -5,23 +5,21 @@
 
 +++
 
-### Hello!
+## 誰だ
+![todokr](assets/img/icon.jpg)
 
-```scala
-protected case object PublicAction {
-  def apply(requestHandler: Request[AnyContent] => Future[Result]): Action[AnyContent] =
-    apply(BodyParsers.parse.anyContent)(requestHandler)
-  def apply[A](bodyParser: BodyParser[A])(requestHandler: Request[A] => Future[Result]): Action[A] = {
-    Action.async(bodyParser)(req => requestHandler(req))
-  }
-}
-```
-
-+++
-@title[Some custom label]
-
-Goodbye!
+- 株式会社ビズリーチ Scalaエンジニア
+- Unicode Emojiが好き😂
 
 +++
 
-Adiós!
+## フロントエンドの苦悩
+- とりあえず適当にbootstrapで画面を！|
+- おっとversion4になったんだった...|
+- Semantic UIのほうがイマドキっぽい！|
+- Vue.jsを使うぞ！vue-cli...???|
+- Webpack?なにそれおいしいの？|
+
++++
+
+## それってやりたいことでしたっけ？
