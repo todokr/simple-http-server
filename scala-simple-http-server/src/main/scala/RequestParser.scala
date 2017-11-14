@@ -1,6 +1,6 @@
 import java.io.{BufferedReader, InputStream, InputStreamReader}
 
-object RequestParser {
+class RequestParser {
 
   def fromInputStream(in: InputStream): Option[Request] = {
     val reader = new BufferedReader(new InputStreamReader(in))

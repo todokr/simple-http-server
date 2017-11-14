@@ -5,9 +5,9 @@ import scala.collection.JavaConverters._
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 
-class MimeDetector(configName: String) {
+object MimeDetector {
 
-  private val mimeMap = MimeConfParser.parse(Paths.get(Thread.currentThread.getContextClassLoader.getResource(configName).toURI))
+  private val mimeMap = MimeConfParser.parse(Paths.get(getClass.getResource("mime.types").toURI))
   private val extPattern = """(?<=\.)[A-Za-z0-9]+$""".r
 
   def getMime(fileName: String): String =
