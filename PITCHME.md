@@ -120,6 +120,10 @@
 
 +++
 
+# 簡易な実装なら数百行程度👍
+
++++
+
 ## 仕様
 - Request For Comment|
 - HTTPはRFC7230 ~ 7235|
@@ -130,12 +134,9 @@
 
 https://tools.ietf.org/html/rfc7230
 
----?image=assets/img/rfc-html.png
++++?image=assets/img/rfc-html.png
 
 http://httpwg.org/
-
-
-# 簡易な実装なら数百行程度👍
 
 ---
 
