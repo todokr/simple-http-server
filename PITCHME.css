@@ -12,15 +12,15 @@
 }
 
 .reveal h1 {
-    font-size: 1.8em;
-}
-
-.reveal h2 {
     font-size: 1.6em;
 }
 
-.reveal h3 {
+.reveal h2 {
     font-size: 1.4em;
+}
+
+.reveal h3 {
+    font-size: 1.2em;
 }
 
 
