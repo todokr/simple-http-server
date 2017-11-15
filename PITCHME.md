@@ -132,11 +132,11 @@
 
 ## RFC
 
-+++?image=assets/img/rfc.png
++++?image=assets/img/rfc.png&size=contain
 
 https://tools.ietf.org/html/rfc7230
 
-+++?image=assets/img/rfc-html.png
++++?image=assets/img/rfc-html.png&size=contain
 
 http://httpwg.org/
 
@@ -157,7 +157,7 @@ http://httpwg.org/
 
 ## Scalaってバリバリの関数型言語なんでしょ?
 
----?image=assets/img/fp-for-mortals.png&size=contain
++++?image=assets/img/fp-for-mortals.png&size=contain
 
 +++
 
@@ -189,6 +189,8 @@ http://eed3si9n.com/ja/simplicity-matters
 
 ## Clojureと「Simple Made Easy」
 
+> テストや型システム、強力なリファクタリングは、安全性を高めてくれるでしょう。しかし、これらは強力なガードレールではあっても、シンプルさを保証してはくれません。シンプルさと、ものごとがコンプレクトしていくことの問題を解決してはくれません。だから、シンプルさというのは、常に自分の選択なんだ、とRichはプレゼンテーションで主張しています。
+
 http://boxofpapers.hatenablog.com/entry/simple_made_easy
 
 ---
@@ -206,12 +208,10 @@ http://boxofpapers.hatenablog.com/entry/simple_made_easy
 
 +++
 
+## ソースコード
 
-## RFC
+https://github.com/todokr/simple-http-server
 
-+++
-
-## ざっくりアーキテクチャ
 
 ---
 
@@ -223,7 +223,7 @@ http://boxofpapers.hatenablog.com/entry/simple_made_easy
 
 +++
 
-## Socket
+## Socket?🤔
 
 通信におけるエンドポイントを表現したデータモデル
 
@@ -232,6 +232,16 @@ http://boxofpapers.hatenablog.com/entry/simple_made_easy
 > 各エンドポイントを識別する２つの値、すなわち**IPアドレスとポート番号**は、多くの場合ソケット (socket) と呼ばれる。
 
 > 「UNIXネットワークプログラミング」 第２版 Vol.1 p43
+
++++?code=java-simple-http-server/src/main/java/SimpleJavaHttpServer.java&lang=java
+@[2-3](import)
+@[11](サーバーソケットを生成)
+@[17-19](クライアントの接続を待ち受ける)
+
++++?code=scala-simple-http-server/src/main/scala/SimpleJavaHttpServer.scala&lang=scala
+@[14](サーバーソケットを生成)
+@[19-20](クライアントの接続を待ち受ける)
+###
 
 ---
 
