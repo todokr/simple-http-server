@@ -1,5 +1,5 @@
 .reveal {
-    word-break: keep-all!important;
+   
 }
 
 .reveal h1,
@@ -33,6 +33,7 @@
 }
 
 .reveal blockquote {
+    word-break: keep-all!important;
     width: 100%;
     font-size: 0.8em;
     line-height: 1.4;
