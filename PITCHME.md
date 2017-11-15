@@ -400,6 +400,7 @@ private def list = """types\s*\{""".r ~> rep(line) <~ "}"
 ```clojure
 {:name "Fred" 
  :age 23}
+```
 
 https://github.com/edn-format/edn
 
