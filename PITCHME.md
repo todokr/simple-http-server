@@ -353,6 +353,8 @@ edn
 - propertiesなどでも良いが...|
 - パーサコンビネータを使ってmime.typesをパースしてみる|
 
++++
+
 ### パーサコンビネータ?🤔
 
 - パーサ(関数)を引数にとる高階関数
@@ -378,10 +380,10 @@ private def line = key ~ value <~ ";"
 private def list = """types\s*\{""".r ~> rep(line) <~ "}"
 ```
 
-@[4](keyはアルファベット+記号)
-@[5](valueはアルファベット+記号を空白文字で区切った繰り返し)
-@[6](lineはkeyに続いたvalue、そして`;`)
-@[7](listはlineの繰り返しを"types {"と"}"で挟んだもの)
+@[5](keyはアルファベット+記号)
+@[6](valueはアルファベット+記号を空白文字で区切った繰り返し)
+@[7](lineはkeyに続いたvalue、そして`;`)
+@[8](listはlineの繰り返しを"types {"と"}"で挟んだもの)
 
 
 +++?code=scala-simple-http-server/src/main/scala/MimeDetector.scala&lang=scala
