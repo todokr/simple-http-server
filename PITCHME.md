@@ -120,12 +120,10 @@
 
 +++
 
-# 簡易な実装なら数百行程度👍
-
-+++
-
-## 仕様
-- Request For Comment|
+## HTTPの仕様
+- Request For Comments|
+  - IETFによる技術仕様の保存、公開形式|
+  - プロトコルやファイルフォーマットなどが中心|
 - HTTPはRFC7230 ~ 7235|
 
 +++
@@ -140,9 +138,33 @@ https://tools.ietf.org/html/rfc7230
 
 http://httpwg.org/
 
++++
+
+## 簡易な実装なら数百行程度👍
+
++++
+
+## イメージ
+
+```
+$ python -m SimpleHTTPServer # 2系
+$ python -m http.server # 3系
+```
++++
+
+## 今回作るHTTPサーバー
+
+- localhost:8080で待ち受け、HTTPリクエストを受けとり、HTTPレスポンスを返す
+- 対応するHTTPリクエストメソッドは`GET`のみ（それ以外のメソッドもGETとみなす）
+- publicディレクトリより上の階層へのリクエストには403 Forbiddenを返す
+- リソースのMIMEは外部ファイルで設定できる
+- リクエストをブロックしない（マルチスレッド）
+- Keep-Aliveはしない
+- HTTP Cacheはしない
+
 ---
 
-# Scala, Clojureについて
+# Scala & Clojure
 
 +++
 
@@ -155,7 +177,7 @@ http://httpwg.org/
 
 +++
 
-## Scalaってバリバリの関数型言語なんでしょ?
+### Scalaってバリバリの関数型言語なんでしょ?
 
 +++?image=assets/img/fp-for-mortals.png&size=contain
 
@@ -179,7 +201,7 @@ http://httpwg.org/
 
 +++
 
-## Simplicity Matters
+### Simplicity Matters
 
 > 設計上の機敏さ (architectural agility)、つまり根本的にシンプルなシステムを構築することによって得られる機敏さ、は他の全ての機敏さを圧倒するというのが僕の主張です。どんな開発プロセスを使っているかは関係ありません。
 
@@ -187,14 +209,14 @@ http://eed3si9n.com/ja/simplicity-matters
 
 +++
 
-## Clojureと「Simple Made Easy」
+### Clojureと「Simple Made Easy」
 
 > テストや型システム、強力なリファクタリングは、安全性を高めてくれるでしょう。しかし、これらは強力なガードレールではあっても、シンプルさを保証してはくれません。
 http://boxofpapers.hatenablog.com/entry/simple_made_easy
 
 +++
 
-## Clojureと「Simple Made Easy」
+### Clojureと「Simple Made Easy」
 
 > だから、シンプルさというのは、常に自分の選択なんだ、とRichはプレゼンテーションで主張しています。
 
@@ -209,14 +231,14 @@ http://boxofpapers.hatenablog.com/entry/simple_made_easy
 
 ## HTTPサーバーを作りながら学ぼう
 
-1.プロジェクトの準備|
-2.Socketの扱い|
-3.Input/OutputStreamの扱い|
-4.文字列/バイト列の扱い|
-5.正規表現|
-6.設定ファイルの読み込み|
-7.リソースの開放|
-8.並列処理|
+- 1.プロジェクトの準備
+- 2.Socketの扱い
+- 3.Input/OutputStreamの扱い
+- 4.文字列/バイト列の扱い
+- 5.正規表現
+- 6.設定ファイルの読み込み
+- 7.リソースの開放
+- 8.並列処理
 
 +++
 
@@ -271,7 +293,117 @@ https://github.com/todokr/simple-http-server
 
 # レシピ#6 設定ファイルの読み込み
 
++++
+
+## やりたいこと
+- 設定ファイルの内容からMIMEを決定したい
+  - apache/nginxのmime.typesみたいな
+
++++
+
+```
+# MIME type                 Extensions
+
+text/csv                    csv
+text/directory
+text/dns
+text/enriched
+text/html                   html htm
+text/parityfec
+text/plain                  txt text conf def list log in
+text/prs.fallenstein.rst
+text/prs.lines.tag          dsc
+text/red
+text/rfc822-headers
+text/richtext               rtx
+```
+
++++
+
+### 今回の設定ファイルの形式
+- Java  
+properties
+
+- Scala  
+mime.types
+
+- Clojure  
+edn
+
++++
+
+## Java
+- XML
+- properties
+- JSON/HOCON|
+- yaml|
+
++++?code=java-simple-http-server/src/main/java/MimeDetector.java&lang=java
+
+@[11](ファイルをImputStreamに)
+@[12](propertiesオブジェクトの生成)
+@[14](InputStreamをロード)
+@[25-29](PathからMIMEを決定)
+@[28](`props.getProperty(key, defalt);`)
+
+## Scala
+- propertiesなどでも良いが...|
+- パーサコンビネータを使ってmime.typesをパースしてみる|
+
+### パーサコンビネータ?🤔
+
+- パーサ(関数)を引数にとる高階関数
+- 簡単なパーサを組み合わせていくことで、複雑な構文をパースするパーサを作ることができる
+
++++?code=scala-simple-http-server/build.sbt&lang=scala
+@[8](scala-parser-combinatorsを依存関係に追加)
+
++++?code=scala-simple-http-server/src/main/scala/MimeDetector.scala&lang=scala
+@[20](scala.util.parsing.combinator.RegexParserをextends)
+@[22](`#`始まりのコメント行を読み飛ばすようoverride)
+
++++
+
+```scala
+// types {
+//   text/html  htm html shtml;
+// }
+
+private def key = """[\w\./+-]+""".r
+private def value = repsep("""[\w\./+-]+""".r, """\s""".r)
+private def line = key ~ value <~ ";"
+private def list = """types\s*\{""".r ~> rep(line) <~ "}"
+```
+
+@[4](keyはアルファベット+記号)
+@[5](valueはアルファベット+記号を空白文字で区切った繰り返し)
+@[6](lineはkeyに続いたvalue、そして`;`)
+@[7](listはlineの繰り返しを"types {"と"}"で挟んだもの)
+
+
++++?code=scala-simple-http-server/src/main/scala/MimeDetector.scala&lang=scala
+@[31](パースの実行)
+@[32-33](パースの成功/失敗をパターンマッチ)
 ---
+
+## Clojure
+
+### Edn（Extensible data notation）
+- Clojureのコードのサブセット
+  - Clojureのコードとして評価できる
+
+```clojure
+{:name "Fred" 
+ :age 23}
+
+https://github.com/edn-format/edn
+
++++?code=clojure-simple-http-server/src/clojure_simple_http_server/mime_detector.clj&lang=clojure
+@[2](clojure.ednのインポート)
+@[8](resourceディレクトリのファイルをjava.net.URLへ)
+@[9](全部読んで文字列に)
+@[10](パースしてMapに)
+
 
 # レシピ#7 リソースの開放
 
@@ -282,6 +414,10 @@ https://github.com/todokr/simple-http-server
 ---
 
 # HTTPサーバーの次は?
+
+- サーブレットに魔改造してJavaを動かす
+- CGIサーバーに魔改造してPHPを動かす
+- L7ロードバランサーに魔改造して負荷分散
 
 +++
 
@@ -296,3 +432,4 @@ https://github.com/todokr/simple-http-server
 +++
 
 ## 「Shibuya Lisp」
+
