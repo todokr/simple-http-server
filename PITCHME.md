@@ -338,11 +338,7 @@ edn
 - JSON/HOCON|
 - yaml|
 
-### Java
-
 +++?code=java-simple-http-server/src/main/java/MimeDetector.java&lang=java
-
-Java
 
 @[11](ファイルをImputStreamに)
 @[12](propertiesオブジェクトの生成)
