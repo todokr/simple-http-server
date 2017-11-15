@@ -1,5 +1,5 @@
 .reveal {
-   font-size: 30px;
+   font-size: 34px;
 }
 
 .reveal h1,
@@ -26,6 +26,7 @@
 
 .reveal pre {
     width: 100%;
+   font-size: 0.75em;
 }
 
 .reveal a {
