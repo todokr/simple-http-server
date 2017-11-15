@@ -20,14 +20,6 @@
     width: 100%;
 }
 
-a {
-  text-shadow:
-    0 5px 0 #fff,
-    5px 0 0 #fff,
-    0 -5px 0 #fff,
-    -5px 0 0 #fff,
-    -5px -5px 0 #fff,
-    5px -5px 0 #fff,
-    -5px 5px 0 #fff,
-    5px 5px 0 #fff;
+.reveal a {
+    background: #fff;
 }
