@@ -338,7 +338,11 @@ edn
 - JSON/HOCON|
 - yaml|
 
+### Java
+
 +++?code=java-simple-http-server/src/main/java/MimeDetector.java&lang=java
+
+Java
 
 @[11](ファイルをImputStreamに)
 @[12](propertiesオブジェクトの生成)
@@ -346,7 +350,10 @@ edn
 @[25-29](PathからMIMEを決定)
 @[28](`props.getProperty(key, defalt);`)
 
++++
+
 ## Scala
+
 - propertiesなどでも良いが...|
 - パーサコンビネータを使ってmime.typesをパースしてみる|
 
