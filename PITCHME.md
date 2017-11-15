@@ -189,9 +189,21 @@ http://eed3si9n.com/ja/simplicity-matters
 
 ## Clojureと「Simple Made Easy」
 
-> テストや型システム、強力なリファクタリングは、安全性を高めてくれるでしょう。しかし、これらは強力なガードレールではあっても、シンプルさを保証してはくれません。シンプルさと、ものごとがコンプレクトしていくことの問題を解決してはくれません。だから、シンプルさというのは、常に自分の選択なんだ、とRichはプレゼンテーションで主張しています。
+> テストや型システム、強力なリファクタリングは、安全性を高めてくれるでしょう。しかし、これらは強力なガードレールではあっても、シンプルさを保証してはくれません。
+http://boxofpapers.hatenablog.com/entry/simple_made_easy
+
++++
+
+## Clojureと「Simple Made Easy」
+
+> だから、シンプルさというのは、常に自分の選択なんだ、とRichはプレゼンテーションで主張しています。
 
 http://boxofpapers.hatenablog.com/entry/simple_made_easy
+
++++
+
+- どんな言語を使うにせよ、シンプルさについて考えるのは意味あること
+- 状態をどう扱うかなど、大変刺激的
 
 ---
 
@@ -238,7 +250,7 @@ https://github.com/todokr/simple-http-server
 @[11](サーバーソケットを生成)
 @[17-19](クライアントの接続を待ち受ける)
 
-+++?code=scala-simple-http-server/src/main/scala/SimpleJavaHttpServer.scala&lang=scala
++++?code=scala-simple-http-server/src/main/scala/SimpleHttpServer.scala&lang=scala
 @[14](サーバーソケットを生成)
 @[19-20](クライアントの接続を待ち受ける)
 ###
