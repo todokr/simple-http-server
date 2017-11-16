@@ -2,8 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestParser {
+
+    public static Pattern requestLinePattern = Pattern.compile("(?<method>.*) (?<path>.*?) (?<version>.*?)");
 
     /**
      * InputStreamからHTTPリクエストをパースし、Requestを生成する。
@@ -15,11 +19,13 @@ public class RequestParser {
 
         if (requestLine == null) return null;
 
-        // http://httpwg.org/specs/rfc7230.html#request.line
-        String[] requestLineItems = requestLine.split("\\s");
-        String method      = requestLineItems[0];
-        String targetPath  = requestLineItems[1];
-        String httpVersion = requestLineItems[2];
+        Matcher matcher = requestLinePattern.matcher(requestLine);
+
+        if (!matcher.find()) return null;
+
+        String method      = matcher.group("method");
+        String targetPath  = matcher.group("path");
+        String httpVersion = matcher.group("version");
 
         return new Request(method, targetPath, httpVersion);
     }
