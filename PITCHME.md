@@ -87,8 +87,8 @@ private def line = key ~ value <~ ";"
 private def list = """types\s*\{""".r ~> rep(line) <~ "}"
 ```
 
-@[5](keyはアルファベット+記号)
-@[6](valueはアルファベット+記号を空白文字で区切った繰り返し)
+@[5](mimeはアルファベット+記号)
+@[6](extはアルファベット+記号を空白文字で区切った繰り返し)
 @[7](lineはkeyに続いたvalue、そして`;`)
 @[8](listはlineの繰り返しを"types {"と"}"で挟んだもの)
 
