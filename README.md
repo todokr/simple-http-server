@@ -12,3 +12,24 @@
 - リクエストをブロックしない（マルチスレッド）
 - Keep-Aliveはしない
 - HTTP Cacheはしない
+
+## 起動
+
+- Java  
+```
+$ brew install homebrew/versions/maven32 # if you need
+$ mvn compile
+$ mvn exec:java
+```
+
+- Scala
+```
+$ brew install sbt # if you need
+$ sbt run
+```
+
+- Clojure
+```
+$ brew install leiningen # if you need
+$ lein run
+```
