@@ -1,11 +1,11 @@
 (ns clojure-simple-http-server.core
   (:gen-class)
   (:require [clojure.java.io :as io]
-            [clojure.core.async :refer [thread]]
+            [clojure.core.async :as async]
             [clojure-simple-http-server.request-parser :as request-parser]
             [clojure-simple-http-server.request-handler :as request-handler]
             [clojure-simple-http-server.response-writer :as response-writer])
-  (:import (java.net InetSocketAddress ServerSocket)))
+  (:import (java.net ServerSocket)))
 
 (def port 8080)
 
@@ -14,7 +14,7 @@
     (prn (str "HTTP Server Start! Listening at " port "!"))
     (while true
       (let [socket (.accept server-socket)]
-        (thread
+        (async/thread
           (with-open [s socket
                       in (io/input-stream (.getInputStream s))
                       out (io/output-stream (.getOutputStream s))]

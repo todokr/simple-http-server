@@ -2,18 +2,19 @@
   (:import (java.time.format DateTimeFormatter)
            (java.time OffsetDateTime ZoneOffset)))
 
-(def SP " ")
-(def CRLF "\r\n")
+(def sp " ")
+(def crlf "\r\n")
 
 (defn write [{:keys [status reason-phrase content-type body]} out]
   (let [header (str
-                "HTTP/1.1" SP status SP reason-phrase CRLF
+                "HTTP/1.1" sp status sp reason-phrase crlf
                 "Date:" (.format (OffsetDateTime/now ZoneOffset/UTC) DateTimeFormatter/RFC_1123_DATE_TIME)
-                "Content-Length:" (count body) CRLF
-                "Content-Type:" content-type CRLF
-                "Connection: Close" CRLF
-                CRLF)]
-    (.write out (.getBytes header))
-    (.write out body)
-    (.write out (.getBytes CRLF))
-    (.flush out)))
+                "Content-Length:" (count body) crlf
+                "Content-Type:" content-type crlf
+                "Connection: Close" crlf
+                crlf)]
+    (doto out
+      (.write (.getBytes header))
+      (.write body)
+      (.write (.getBytes crlf))
+      (.flush))))
