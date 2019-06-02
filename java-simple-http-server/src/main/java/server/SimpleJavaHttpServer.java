@@ -1,3 +1,5 @@
+package server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,7 +12,7 @@ public class SimpleJavaHttpServer {
 
         ServerSocket serverSocket = new ServerSocket(PORT);
         RequestParser parser = new RequestParser();
-        RequestHandler handler = new RequestHandler();
+        RequestHandler handler = new RequestHandler(); // こいつをWebApplicationに書き換え
 
         System.out.println("HTTP Server Start! Listening at " + PORT + "!");
 

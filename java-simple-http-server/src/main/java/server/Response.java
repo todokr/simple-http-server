@@ -1,3 +1,5 @@
+package server;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +31,7 @@ public class Response {
         String response =
                 "HTTP/1.1 " + status.statusCode + CRLF +
                 "Date: " + rfc1123Formatter.format(now) + CRLF +
-                "Server: SimpleJavaHttpServer" + CRLF +
+                "Server: server.SimpleJavaHttpServer" + CRLF +
                 "Content-Type: " + contentType + CRLF +
                 "Content-Length: " + String.valueOf(contentLength) + CRLF +
                 "Connection: Close" + CRLF +

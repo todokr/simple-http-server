@@ -11,5 +11,5 @@ buildNumber.properties
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
 .idea
-/SimpleJavaHttpServer.iml
+/server.SimpleJavaHttpServer.iml
 /SimpleJavaHTTPServer.iml
