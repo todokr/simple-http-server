@@ -7,31 +7,27 @@ import java.time.format.DateTimeFormatter;
 
 import enums.Status;
 
-public class Response {
+public record Response(
+        Status status,
+        String contentType,
+        byte[] body
+) {
 
-    public final Status status;
-    public final String contentType;
-    public final int contentLength;
-    public final byte[] body;
+    private static final DateTimeFormatter rfc1123Formatter = DateTimeFormatter.RFC_1123_DATE_TIME;
+    private static final String CRLF = "\r\n";
 
-    private static DateTimeFormatter rfc1123Formatter = DateTimeFormatter.RFC_1123_DATE_TIME;
-    private static String CRLF = "\r\n";
-
-    public Response(Status status, String contentType, byte[] body){
-      this.status = status;
-      this.contentType = contentType;
-      this.contentLength = body.length;
-      this.body = body;
+    public int contentLength() {
+        return body.length;
     }
 
     public void writeTo(OutputStream out) throws IOException {
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-        String response =
+        var response =
                 "HTTP/1.1 " + status.statusCode + CRLF +
                 "Date: " + rfc1123Formatter.format(now) + CRLF +
                 "Server: SimpleJavaHttpServer" + CRLF +
                 "Content-Type: " + contentType + CRLF +
-                "Content-Length: " + String.valueOf(contentLength) + CRLF +
+                "Content-Length: " + contentLength() + CRLF +
                 "Connection: Close" + CRLF +
                 CRLF;
 
