@@ -1,15 +1,11 @@
+package simplehttpserver
+
 import java.io.OutputStream
 import java.nio.charset.StandardCharsets
-import java.time.{OffsetDateTime, ZoneOffset}
 import java.time.format.DateTimeFormatter
+import java.time.{OffsetDateTime, ZoneOffset}
 
-import enums.Status
-
-case class Response(
-  status: Status,
-  contentType: String,
-  body: Array[Byte]
-) {
+case class Response(status: Status, contentType: String, body: Array[Byte]) {
 
   import Response._
 
@@ -32,7 +28,21 @@ case class Response(
 }
 
 object Response {
+  private val HtmlMime = "text/html;charset=utf8"
+
+  val BadRequest: Response =
+    Response(
+      status = Status.BadRequest,
+      contentType = HtmlMime,
+      body = "Bad Request".getBytes(StandardCharsets.UTF_8)
+    )
+
+  val NotFound: Response =
+    Response(
+      status = Status.NotFound,
+      contentType = HtmlMime,
+      body = "Not Found".getBytes(StandardCharsets.UTF_8)
+    )
+
   private val rfc1123Formatter = DateTimeFormatter.RFC_1123_DATE_TIME
 }
-
-
