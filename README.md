@@ -7,8 +7,8 @@
 
 ## 各言語のバージョン
 - Java 14
-- Scala 2.12
-- Clojure 1.8
+- Scala 2.13.3
+- Clojure 1.10.2
 
 ## 仕様
 - localhost:8080で待ち受け、HTTPリクエストを受けとり、HTTPレスポンスを返す
