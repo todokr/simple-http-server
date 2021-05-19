@@ -1,5 +1,6 @@
 package simplehttpserver
 
+import java.io.Closeable
 import java.net.ServerSocket
 import java.util.concurrent.Executors
 
@@ -20,19 +21,28 @@ object SimpleHttpServer {
     val serverSocket = new ServerSocket(Port)
     println(s"HTTP Server Start! Listening at ${Port}!")
 
+    sys.addShutdownHook {
+      println("Shutting down HTTP Server...")
+      serverSocket.close()
+      executor.shutdown()
+    }
+
     while (true) {
-      val socket = serverSocket.accept
+      val clientSocket = serverSocket.accept
 
       Future {
-        val in = socket.getInputStream
-        val out = socket.getOutputStream
-        val request = parser.fromInputStream(in)
-        val response = request.map(requestHandler.handleRequest)
-        response.foreach(_.writeTo(out))
-        socket.close()
+        using(clientSocket) { socket =>
+          val in = socket.getInputStream
+          val out = socket.getOutputStream
+          val request = parser.fromInputStream(in)
+          val response = request.map(requestHandler.handleRequest)
+          response.foreach(_.writeTo(out))
+        }
       }
     }
-    println("Shutting down HTTP Server...")
-    executor.shutdown()
   }
+
+  private def using[A, R <: Closeable](resource: R)(f: R => A): A =
+    try f(resource)
+    finally resource.close()
 }

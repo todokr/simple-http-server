@@ -55,8 +55,6 @@ object MimeConfParser extends RegexParsers {
   private def mimeTypeToken = """[\w\./+-]+""".r
   private def extToken = """[\w\./+-]+""".r
 
-  parse(line, "#hoe").get
-
   def parseLines(rawLines: Seq[String]): MimeConfig = {
 
     val lines = rawLines.map { rawLine =>

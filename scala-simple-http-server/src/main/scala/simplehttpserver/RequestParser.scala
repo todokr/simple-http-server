@@ -3,16 +3,19 @@ package simplehttpserver
 import java.io.{BufferedReader, InputStream, InputStreamReader}
 
 class RequestParser {
+  import RequestParser._
 
   def fromInputStream(in: InputStream): Option[Request] = {
     val reader = new BufferedReader(new InputStreamReader(in))
-    val requestLine = reader.readLine()
+    val rawRequestLine = reader.readLine()
 
-    // requestLineはnullかも知れないのでOptionでくるむ
-    Option(requestLine).map { line =>
-      // 変数x, y, zにArrayの中身を束縛。Arrayの長さが3ではない場合は例外をスローする
-      val Array(method, targetPath, httpVersion) = line.split("\\s")
-      Request(method, targetPath, httpVersion)
+    Option(rawRequestLine).collect {
+      case RequestLinePattern(method, targetPath, httpVersion) =>
+        Request(method, targetPath, httpVersion)
     }
   }
+}
+
+object RequestParser {
+  final val RequestLinePattern = "(.+) (.+) (.+)".r
 }
