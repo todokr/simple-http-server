@@ -1,9 +1,6 @@
 
-![スライド](slide.png)
-[JJUG CCC 2017 Fall「HTTPサーバーを作って学ぶ Java, Scala, Clojure」](https://speakerdeck.com/todokr/xin-siihurokuraminkuyan-yu-falsexue-hifang-httpsahawozuo-tutexue-hu-java-scala-clojure)
-
 # Simple HTTP Server
-言語学習用のシンプルなHTTPサーバーの実装例です。現在 Java, Scala, Clojureの実装があります。改善や他言語での実装など、PR歓迎です！
+言語学習用のシンプルなHTTPサーバーの実装例です。現在 Java, Scala, Clojureの実装があります。
 
 ## 各言語のバージョン
 - Java 11
