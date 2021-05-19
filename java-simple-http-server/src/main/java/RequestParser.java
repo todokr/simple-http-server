@@ -8,13 +8,12 @@ public class RequestParser {
 
     private static final Pattern requestLinePattern =
             Pattern.compile("(?<method>.*) (?<path>.*?) (?<version>.*?)");
-    private static final String publicDirName = "public";
 
     /**
      * InputStreamからHTTPリクエストをパースし、Requestを生成する。
      * InvalidなHTTPリクエストの場合はnullを返す。
      */
-    public RequestContext fromInputStream(InputStream in) throws IOException {
+    public Request fromInputStream(InputStream in) throws IOException {
         var reader = new BufferedReader(new InputStreamReader(in));
         var requestLine = reader.readLine();
 
@@ -28,6 +27,6 @@ public class RequestParser {
         var targetPath  = matcher.group("path");
         var httpVersion = matcher.group("version");
 
-        return new RequestContext(method, targetPath, httpVersion, publicDirName);
+        return new Request(method, targetPath, httpVersion);
     }
 }

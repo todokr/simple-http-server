@@ -21,7 +21,8 @@ public class WorkerThread extends Thread {
              OutputStream out = s.getOutputStream()) {
             var request = parser.fromInputStream(in);
             var response = handler.handleRequest(request);
-            response.writeTo(out);
+            out.write(response.toBytes());
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
