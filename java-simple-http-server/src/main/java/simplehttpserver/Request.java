@@ -1,3 +1,5 @@
+package simplehttpserver;
+
 /**
  * HTTPサーバーへのリクエスト
  */

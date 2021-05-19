@@ -29,7 +29,8 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>SimpleJavaHttpServer</mainClass>
+                    <mainClass>simplehttpserver.SimpleJavaHttpServer</mainClass>
+                    <addResourcesToClasspath>true</addResourcesToClasspath>
                 </configuration>
 
             </plugin>

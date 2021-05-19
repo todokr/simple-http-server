@@ -1,3 +1,5 @@
+package simplehttpserver;
+
 import java.io.IOException;
 import java.util.Properties;
 
@@ -6,7 +8,7 @@ public class MimeDetector {
     private final Properties prop;
 
     public MimeDetector(String configFileName) {
-        var in = this.getClass().getResourceAsStream(configFileName);
+        var in = Thread.currentThread().getContextClassLoader().getResourceAsStream(configFileName);
         var props = new Properties();
         try {
             props.load(in);

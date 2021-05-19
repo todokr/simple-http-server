@@ -1,3 +1,5 @@
+package simplehttpserver;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 

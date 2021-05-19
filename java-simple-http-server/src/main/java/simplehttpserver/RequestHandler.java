@@ -1,4 +1,6 @@
-import enums.Status;
+package simplehttpserver;
+
+import simplehttpserver.enums.Status;
 
 import java.io.IOException;
 import java.nio.file.Files;

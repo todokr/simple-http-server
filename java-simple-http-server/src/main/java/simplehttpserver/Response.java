@@ -1,15 +1,12 @@
-import enums.Status;
+package simplehttpserver;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
+import simplehttpserver.enums.Status;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Response {
     final Status status;
@@ -25,17 +22,13 @@ public class Response {
         this.body = body;
     }
 
-    public int contentLength() {
-        return body.length;
-    }
-
     public byte[] toBytes() {
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
         var header =  "HTTP/1.1 " + status.statusCode + CRLF +
                 "Date: " + rfc1123Formatter.format(now) + CRLF +
                 "Server: SimpleJavaHttpServer" + CRLF +
                 "Content-Type: " + contentType + CRLF +
-                "Content-Length: " + contentLength() + CRLF +
+                "Content-Length: " + body.length + CRLF +
                 "Connection: Close" + CRLF +
                 CRLF;
         var headerBytes = header.getBytes(StandardCharsets.UTF_8);

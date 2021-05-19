@@ -1,4 +1,4 @@
-package enums;
+package simplehttpserver.enums;
 
 public enum Status {
     OK("200 OK"),
