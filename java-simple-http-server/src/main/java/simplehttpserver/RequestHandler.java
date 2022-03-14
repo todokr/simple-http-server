@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class RequestHandler {
 
@@ -20,7 +21,7 @@ public class RequestHandler {
 
     public Response handleRequest(Request request) throws IOException {
 
-        if (request == null) {
+        if (Objects.isNull(request)) {
             return new Response(Status.BAD_REQUEST, HTML_MIME, Files.readAllBytes(BAD_REQUEST_HTML_PATH));
         }
 
@@ -31,7 +32,7 @@ public class RequestHandler {
         }
 
         if (isRequestForFile(normalizedRequestPath)) {
-            var mime = mimeDetector.getMime(request.path);
+            var mime = mimeDetector.fromFileName(request.path);
             return new Response(Status.OK, mime, Files.readAllBytes(normalizedRequestPath));
         }
 

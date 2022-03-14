@@ -3,7 +3,7 @@
 言語学習用のシンプルなHTTPサーバーの実装例です。現在 Java, Scala, Clojureの実装があります。
 
 ## 各言語のバージョン
-- Java 11
+- Java 17
 - Scala 2.13.3
 - Clojure 1.10.2
 

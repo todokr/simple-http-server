@@ -22,7 +22,7 @@ public class MimeDetector {
      * 与えられたファイル名の拡張子に対応するMIMEを返す。
      * 該当する拡張子が無い場合はapplication/octet-streamを返す。
      */
-    public String getMime(String fileName) {
+    public String fromFileName(String fileName) {
         var ext = fileName.substring(fileName.indexOf(".") + 1);
         return this.prop.getProperty(ext, "application/octet-stream");
     }
