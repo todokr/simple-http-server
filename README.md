@@ -19,7 +19,7 @@
 
 - Java  
 ```
-$ brew install homebrew/versions/maven32 # if you need
+$ brew install maven # if you need
 $ mvn compile
 $ mvn exec:java
 ```
