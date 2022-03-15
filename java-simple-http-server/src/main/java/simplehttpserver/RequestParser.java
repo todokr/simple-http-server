@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class RequestParser {
 
     private static final Pattern requestLinePattern =
-            Pattern.compile("(?<method>.*) (?<path>.*?) (?<version>.*?)");
+        Pattern.compile("(?<method>.*) (?<path>.*?) (?<version>.*?)");
 
     /**
      * InputStreamからHTTPリクエストをパースし、Requestを生成する。
