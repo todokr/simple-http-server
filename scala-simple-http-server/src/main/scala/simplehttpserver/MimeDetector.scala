@@ -60,11 +60,7 @@ object MimeConfParser extends RegexParsers {
     val lines = rawLines.map { rawLine =>
       parse(line, rawLine) match {
         case Success(line, _) => line
-        case NoSuccess(msg, next) =>
-          println(rawLine)
-          throw new ConfigParseException(
-            s"Invalid config: $msg on line ${next.pos.line} on column ${next.pos.column}"
-          )
+        case _                => throw new ConfigParseException("Invalid config")
       }
     }
     MimeConfig(lines)
