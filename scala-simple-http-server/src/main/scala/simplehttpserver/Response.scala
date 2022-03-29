@@ -37,6 +37,13 @@ object Response {
       body = "Bad Request".getBytes(StandardCharsets.UTF_8)
     )
 
+  val Forbidden: Response =
+    Response(
+      status = Status.Forbidden,
+      contentType = HtmlMime,
+      body = "Forbidden".getBytes(StandardCharsets.UTF_8)
+    )
+
   val NotFound: Response =
     Response(
       status = Status.NotFound,

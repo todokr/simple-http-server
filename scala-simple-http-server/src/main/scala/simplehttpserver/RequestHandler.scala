@@ -5,7 +5,14 @@ import java.nio.file.{Files, Paths}
 class RequestHandler {
   private val mimeDetector = new MimeDetector("mime.types")
 
-  def handleRequest(request: Request): Response = {
+  def handleRequest(request: ParsedRequest): Response = request match {
+    case validRequest: ValidRequest => handleValidRequest(validRequest)
+    case MalformedRequest(rawRequestLine) =>
+      println(s"Malformed request: $rawRequestLine")
+      Response.BadRequest
+  }
+
+  private def handleValidRequest(request: ValidRequest): Response = {
     val normalizedPublicPath = Paths.get("public", request.targetPath).normalize
     val path =
       if (Files.isDirectory(normalizedPublicPath))
@@ -13,7 +20,7 @@ class RequestHandler {
       else normalizedPublicPath
 
     if (!path.startsWith("public/")) {
-      Response.BadRequest
+      Response.Forbidden
     } else if (!Files.exists(path)) {
       Response.NotFound
     } else {

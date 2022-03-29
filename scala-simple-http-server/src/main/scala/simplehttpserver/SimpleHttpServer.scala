@@ -9,7 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object SimpleHttpServer {
 
-  val Port = 8080
+  val Port = 8001
 
   def main(args: Array[String]): Unit = {
 
@@ -35,8 +35,8 @@ object SimpleHttpServer {
           val in = socket.getInputStream
           val out = socket.getOutputStream
           val request = parser.fromInputStream(in)
-          val response = request.map(requestHandler.handleRequest)
-          response.foreach(_.writeTo(out))
+          val response = requestHandler.handleRequest(request)
+          response.writeTo(out)
         }
       }
     }

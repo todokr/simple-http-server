@@ -5,13 +5,14 @@ import java.io.{BufferedReader, InputStream, InputStreamReader}
 class RequestParser {
   import RequestParser._
 
-  def fromInputStream(in: InputStream): Option[Request] = {
+  def fromInputStream(in: InputStream): ParsedRequest = {
     val reader = new BufferedReader(new InputStreamReader(in))
-    val rawRequestLine = reader.readLine()
+    val requestLine = reader.readLine()
 
-    Option(rawRequestLine).collect {
+    requestLine match {
       case RequestLinePattern(method, targetPath, httpVersion) =>
-        Request(method, targetPath, httpVersion)
+        ValidRequest(method, targetPath, httpVersion)
+      case malformed => MalformedRequest(malformed)
     }
   }
 }
