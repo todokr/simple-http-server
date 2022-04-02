@@ -36,7 +36,8 @@ object SimpleHttpServer {
           val out = socket.getOutputStream
           val request = parser.fromInputStream(in)
           val response = requestHandler.handleRequest(request)
-          response.writeTo(out)
+          out.write(response.toBytes)
+          out.flush()
         }
       }
     }

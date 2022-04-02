@@ -1,6 +1,6 @@
 package simplehttpserver
 
-import java.io.OutputStream
+import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.time.format.DateTimeFormatter
 import java.time.{OffsetDateTime, ZoneOffset}
@@ -9,7 +9,7 @@ case class Response(status: Status, contentType: String, body: Array[Byte]) {
 
   import Response._
 
-  def writeTo(out: OutputStream): Unit = {
+  def toBytes: Array[Byte] = {
     val now = OffsetDateTime.now(ZoneOffset.UTC)
     val response =
       s"""HTTP/1.1 ${status.value}
@@ -21,9 +21,11 @@ case class Response(status: Status, contentType: String, body: Array[Byte]) {
          |
          |""".stripMargin
 
-    out.write(response.getBytes(StandardCharsets.UTF_8))
-    out.write(body)
-    out.flush()
+    val headerBytes = response.getBytes(StandardCharsets.UTF_8)
+    val buff = ByteBuffer.allocate(headerBytes.length + body.length)
+    buff.put(headerBytes)
+    buff.put(body)
+    buff.array()
   }
 }
 

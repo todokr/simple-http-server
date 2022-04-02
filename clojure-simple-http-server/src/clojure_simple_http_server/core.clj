@@ -7,7 +7,7 @@
             [clojure-simple-http-server.response-writer :as response-writer])
   (:import (java.net ServerSocket)))
 
-(def port 8080)
+(def port 8002)
 
 (defn -main [& args]
   (let [server-socket (new ServerSocket port)]
